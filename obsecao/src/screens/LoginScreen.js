@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native'
+import {Dimensions, ImageBackground, Keyboard, StyleSheet, View} from 'react-native'
 import {
     Container,
     Content,
@@ -61,7 +61,13 @@ export default class LoginScreen extends React.Component {
                                         secureTextEntry/>
                                 </Item>
                                 <View style={styles.buttonContainer}>
-                                    <ButtonComponent text={'Entrar'} onPress={tryLogin.bind(this)} full/>
+                                    <ButtonComponent
+                                        text={'Entrar'}
+                                        onPress={() => {
+                                        tryLogin.call(this)
+                                        Keyboard.dismiss()
+                                    }}
+                                        full/>
                                 </View>
                             </Form>
                         </View>
