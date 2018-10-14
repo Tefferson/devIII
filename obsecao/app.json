@@ -20,6 +20,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+		"android": {
+			"package": "br.com.deviii.obsecao",
+			"versionCode": 6
+		},
     "ios": {
       "supportsTablet": true
     }
