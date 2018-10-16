@@ -12,8 +12,9 @@ import {
 import {ButtonComponent} from 'Components'
 import {NavigationService} from 'Services'
 import {Images} from 'Assets'
+import {connect} from 'react-redux'
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -63,10 +64,7 @@ export default class LoginScreen extends React.Component {
                                 <View style={styles.buttonContainer}>
                                     <ButtonComponent
                                         text={'Entrar'}
-                                        onPress={() => {
-                                        tryLogin.call(this)
-                                        Keyboard.dismiss()
-                                    }}
+                                        onPress={() => Keyboard.dismiss() || tryLogin.call(this)}
                                         full/>
                                 </View>
                             </Form>
@@ -102,3 +100,7 @@ const styles = StyleSheet.create({
         color: 'white'
     }
 })
+
+const connectedScreen = connect(null)(LoginScreen)
+
+export default connectedScreen

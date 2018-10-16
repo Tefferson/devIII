@@ -6,16 +6,9 @@ import {Root} from 'native-base'
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation'
 import {HomeScreen, LoginScreen} from 'Screens'
 import {NavigationService} from 'Services'
-
-export default class RouterComponent extends React.Component {
-    render() {
-        return (
-            <Root>
-                <AppRoot ref={NavigationService.setTopLevelNavigator}/>
-            </Root>
-        )
-    }
-}
+import {Provider} from 'react-redux'
+import {LoaderComponent} from 'Components'
+import store from '../flux/store'
 
 const HomeDrawer = createDrawerNavigator({
     Home: {
@@ -37,3 +30,22 @@ const AppRoot = createStackNavigator({
         }
     }
 }, {initialRouteName: 'Login'})
+
+class RouterComponent extends React.Component {
+    render() {
+        return (
+            <Provider store={store}>
+                <Root>
+                    <AppRoot ref={NavigationService.setTopLevelNavigator}/>
+                    <LoaderComponent
+                        show={store
+                        .getState()
+                        .general
+                        .isLoading}/>
+                </Root>
+            </Provider>
+        )
+    }
+}
+
+export default RouterComponent
