@@ -4,5 +4,6 @@
 
 import HomeScreen from './HomeScreen'
 import LoginScreen from './LoginScreen'
+import RegistrationScreen from './RegistrationScreen'
 
-export {HomeScreen, LoginScreen}
+export {HomeScreen, LoginScreen, RegistrationScreen}

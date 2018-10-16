@@ -8,7 +8,7 @@ import {
     Item,
     Label
 } from 'native-base'
-import {ButtonComponent} from 'Components'
+import {AnchorButtonComponent, ButtonComponent} from 'Components'
 import {AuthenticationService, NavigationService} from 'Services'
 import {Images} from 'Assets'
 import {connect} from 'react-redux'
@@ -70,6 +70,10 @@ class LoginScreen extends React.Component {
                                         text={'Entrar'}
                                         onPress={() => Keyboard.dismiss() || tryLogin.call(this)}
                                         full/>
+                                    <AnchorButtonComponent
+                                        text={'Cadastrar-se'}
+                                        onPress={register.bind(this)}
+                                        full/>
                                 </View>
                             </Form>
                         </View>
@@ -83,6 +87,12 @@ class LoginScreen extends React.Component {
 function tryLogin() {
     const {user, password} = this.state
     AuthenticationService.login(user, password)
+}
+
+function register() {
+    NavigationService
+        .registration
+        .navigateTo()
 }
 
 const styles = StyleSheet.create({

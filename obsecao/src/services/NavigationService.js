@@ -25,8 +25,13 @@ const login = {
     resetTo: reset('Login')
 }
 
+const registration = {
+    navigateTo: navigate('Registration')
+}
+
 export default {
     setTopLevelNavigator,
     home,
-    login
+    login,
+    registration
 }
