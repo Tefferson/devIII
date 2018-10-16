@@ -6,11 +6,10 @@ import {
     Form,
     Input,
     Item,
-    Label,
-    Toast
+    Label
 } from 'native-base'
 import {ButtonComponent} from 'Components'
-import {NavigationService} from 'Services'
+import {AuthenticationService, NavigationService} from 'Services'
 import {Images} from 'Assets'
 import {connect} from 'react-redux'
 
@@ -21,6 +20,11 @@ class LoginScreen extends React.Component {
             user: '',
             password: ''
         }
+    }
+
+    componentWillReceiveProps({user}) {
+        if (user) 
+            NavigationService.home.resetTo()
     }
 
     render() {
@@ -78,10 +82,7 @@ class LoginScreen extends React.Component {
 
 function tryLogin() {
     const {user, password} = this.state
-    if (user == 'grupo4' && password == 'grupo4') 
-        NavigationService.home.resetTo()
-    else 
-        Toast.show({text: 'Credenciais inválidas', buttonText: 'OK', duration: 3000, type: 'warning'})
+    AuthenticationService.login(user, password)
 }
 
 const styles = StyleSheet.create({
@@ -101,6 +102,10 @@ const styles = StyleSheet.create({
     }
 })
 
-const connectedScreen = connect(null)(LoginScreen)
+const mapStateToProps = ({user}) => ({
+    user: user && user.user
+})
+
+const connectedScreen = connect(mapStateToProps)(LoginScreen)
 
 export default connectedScreen

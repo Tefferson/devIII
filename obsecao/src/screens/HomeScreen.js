@@ -2,7 +2,7 @@ import React from 'react'
 import {Dimensions, ImageBackground} from 'react-native'
 import {Button, Container, Content, Icon} from 'native-base'
 import {HeaderComponent} from 'Components'
-import {NavigationService} from 'Services'
+import {AuthenticationService} from 'Services'
 
 const tmpSplash = require('../../assets/splash.png')
 
@@ -13,9 +13,7 @@ function renderRight() {
 }
 
 function logout() {
-    NavigationService
-        .login
-        .resetTo()
+    AuthenticationService.logout()
 }
 
 export default class HomeScreen extends React.Component {

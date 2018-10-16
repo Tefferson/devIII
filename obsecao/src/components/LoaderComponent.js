@@ -9,7 +9,7 @@ export default class LoaderComponent extends React.Component {
             <View style={styles.container}>
                 <Pulse size={25} color={Colors.primary}/>
             </View>
-        )
+        ) || null
     }
 }
 

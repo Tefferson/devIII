@@ -1,3 +1,8 @@
-import generalActions from './general/general.actions'
+/**
+ * @providesModule Actions
+ */
 
-export {generalActions}
+import generalActions from './general/general.actions'
+import userActions from './user/user.actions'
+
+export {generalActions, userActions}

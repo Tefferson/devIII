@@ -11,10 +11,6 @@ const generalReducer = (initialState = defaultState, {
     switch (type) {
         case generalConstants.hideLoader:
         case generalConstants.showLoader:
-            return {
-                ...initialState,
-                ...state
-            };
         default:
             return state
     }

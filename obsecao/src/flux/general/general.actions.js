@@ -1,13 +1,13 @@
 import generalConstants from './general.constants'
 
-const showLoader = dispatch => dispatch({
+const showLoader = () => ({
     type: generalConstants.showLoader,
     state: {
         isLoading: true
     }
 })
 
-const hideLoader = dispatch => dispatch({
+const hideLoader = () => ({
     type: generalConstants.hideLoader,
     state: {
         isLoading: false

@@ -32,16 +32,28 @@ const AppRoot = createStackNavigator({
 }, {initialRouteName: 'Login'})
 
 class RouterComponent extends React.Component {
+
+    state = {
+        isLoading: false
+    }
+
+    componentDidMount() {
+        store.subscribe(() => {
+            this.setState({
+                isLoading: store
+                    .getState()
+                    .general
+                    .isLoading
+            })
+        })
+    }
+
     render() {
         return (
             <Provider store={store}>
                 <Root>
                     <AppRoot ref={NavigationService.setTopLevelNavigator}/>
-                    <LoaderComponent
-                        show={store
-                        .getState()
-                        .general
-                        .isLoading}/>
+                    <LoaderComponent show={this.state.isLoading}/>
                 </Root>
             </Provider>
         )
