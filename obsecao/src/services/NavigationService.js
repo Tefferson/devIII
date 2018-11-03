@@ -20,6 +20,11 @@ const home = {
     resetTo: reset('Home')
 }
 
+const announcements = {
+    navigateTo: navigate('Announcements'),
+    resetTo: reset('Announcements')
+}
+
 const login = {
     navigateTo: navigate('Login'),
     resetTo: reset('Login')
@@ -32,6 +37,7 @@ const registration = {
 export default {
     setTopLevelNavigator,
     home,
+    announcements,
     login,
     registration
 }
