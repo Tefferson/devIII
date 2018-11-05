@@ -1,8 +1,8 @@
 import React from 'react'
-import {Dimensions, Image, FlatList, View, Text, StyleSheet, TouchableHighlight} from 'react-native'
+import {Dimensions, Image, View, Text, StyleSheet} from 'react-native'
 import {Button, Container, Content, Icon} from 'native-base'
 import {HeaderComponent} from 'Components'
-import {AuthenticationService, NavigationService} from 'Services'
+import {AuthenticationService} from 'Services'
 
 const tmpSplash = require('../../assets/splash.png')
 
@@ -89,16 +89,12 @@ function logout() {
     AuthenticationService.logout()
 }
 
-function goToNextScreen(key) {
-    NavigationService.announcementDetails.navigateTo()
-}
-
-export default class AnnouncementsScreen extends React.Component {
+export default class AnnouncementDetailsScreen extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            dataSource: data,
+            item: data[0],
         };
     }
     
@@ -109,48 +105,45 @@ export default class AnnouncementsScreen extends React.Component {
             <Container>
                 <HeaderComponent title={'Announcements'} right={renderRight.bind(this)}/>
                 <Content scrollEnabled={true}>
-                    <FlatList contentContainerStyle={styles.announcementList}
-                        numColumns={2}
-                        data={this.state.dataSource}
-                        renderItem={(rowData) => this.renderItem(rowData.item)}
-                    />
+                    <View style={styles.announcementHeader}>
+                        <Image style={styles.announcementAvatar} source={this.state.item.avatar} style={{width: 160, height: 160, borderRadius: 160/2}}></Image>
+                        <Text style={styles.announcementTitle}>{this.state.item.title}</Text>
+                        <Text style={styles.announcementAge}>{this.state.item.age}</Text>
+                    </View>
+                    <View style={styles.announcementContent}>
+                        <Button style={styles.roundedButton}>
+                            <Icon name="md-plus" />
+                        </Button>
+
+
+                        <Text style={styles.announcementDescription}>
+                            Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris id dapibus arcu. Ut posuere est at lectus pharetra vehicula. Mauris lacinia dui non consequat hendrerit. Suspendisse at mattis massa.
+                        </Text>
+                    </View>
                 </Content>
             </Container>
-        )
-    }
-
-    renderItem(rowData) {
-        return (
-            <TouchableHighlight onPress={ goToNextScreen.bind(this, rowData.key)} style={styles.announcementView}>
-                <View style={styles.announcementFullWidthView}>
-                    <View style={styles.avatar}>
-                        <Image style={styles.announcementAvatar} source={rowData.avatar}></Image>
-                    </View>
-                    <Text style={styles.announcementTitle}>{rowData.title}</Text>
-                    <View style={styles.infos}>
-                        <Text style={styles.announcementAge}>{rowData.age}</Text>
-                        <Text style={styles.announcementCreatedAt}>{rowData.createdAt}</Text>
-                    </View>
-                </View>
-            </TouchableHighlight>
         )
     }
 }
 
 var styles = StyleSheet.create({
     
-    announcementList: {
-        flex: 1
-    },
-    announcementView: {
-        backgroundColor: 'green',
-        margin: 5,
-        padding: 5,
+    announcementHeader: {
         flex: 1,
-        height: 220
+        height: 230,
+        backgroundColor: 'green',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    announcementFullWidthView: { 
+    announcementContent: {
+        margin: 5,
+        padding: 10,
         flex: 1
+    },
+    roundedButton: {
+        width: 60,
+        height: 60,
+        borderRadius: 30
     },
     announcementAvatar: {
         width: 160,
@@ -169,15 +162,16 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         flex: 1
-    }, 
+    },
+    announcementDescription: {
+        fontSize: 18
+    },
     announcementCreatedAt: {
         fontSize: 14,
-        width: 130,
         color: 'white',
     },
     announcementAge: {
         fontSize: 14,
-        width: 110,
         color: 'white',
     },
 });

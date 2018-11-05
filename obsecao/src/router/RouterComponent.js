@@ -4,7 +4,7 @@
 import React from 'react'
 import {Root} from 'native-base'
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation'
-import {HomeScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen} from 'Screens'
+import {HomeScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen, AnnouncementDetailsScreen} from 'Screens'
 import {NavigationService} from 'Services'
 import {Provider} from 'react-redux'
 import {LoaderComponent} from 'Components'
@@ -47,6 +47,12 @@ const AppRoot = createStackNavigator({
     },
     Announcements: {
         screen: AnnouncementsScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    AnnouncementDetails: {
+        screen: AnnouncementDetailsScreen,
         navigationOptions: {
             header: null
         }
