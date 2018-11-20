@@ -1,6 +1,6 @@
 import React from 'react'
 import {Dimensions, Image, View, Text, StyleSheet} from 'react-native'
-import {Button, Container, Content, Icon} from 'native-base'
+import {Button, Container, Content, Icon,  Tab, Tabs} from 'native-base'
 import {HeaderComponent} from 'Components'
 import {AuthenticationService} from 'Services'
 
@@ -110,15 +110,34 @@ export default class AnnouncementDetailsScreen extends React.Component {
                         <Text style={styles.announcementTitle}>{this.state.item.title}</Text>
                         <Text style={styles.announcementAge}>{this.state.item.age}</Text>
                     </View>
-                    <View style={styles.announcementContent}>
-                        <Button style={styles.roundedButton}>
-                            <Icon name="md-plus" />
+                    <View style={styles.containerButtons}>
+                        <Button style={styles.containerButton}>
+                            <Icon name='md-chatbubbles' style={{color: '#000'}} />
+                            <Text>Chat</Text>
                         </Button>
 
+                        <Button style={styles.containerButton}>
+                            <Icon name='md-paw' style={{color: '#000'}} />
+                            <Text>Adotar</Text>
+                        </Button>
+                    </View>
 
-                        <Text style={styles.announcementDescription}>
-                            Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris id dapibus arcu. Ut posuere est at lectus pharetra vehicula. Mauris lacinia dui non consequat hendrerit. Suspendisse at mattis massa.
-                        </Text>
+                    <View>
+                        <Tabs>
+                            <Tab heading="Infos">
+                                <View>
+                                    <Text style={styles.announcementDescription}>
+                                        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris id dapibus arcu. Ut posuere est at lectus pharetra vehicula. Mauris lacinia dui non consequat hendrerit. Suspendisse at mattis massa.
+                                    </Text>
+                                </View>
+                            </Tab>
+                            <Tab heading="Fotos">
+                                <View></View>
+                            </Tab>
+                            <Tab heading="Contato">
+                                <View></View>
+                            </Tab>
+                        </Tabs>
                     </View>
                 </Content>
             </Container>
@@ -174,4 +193,20 @@ var styles = StyleSheet.create({
         fontSize: 14,
         color: 'white',
     },
+    containerButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flex: 1
+    },
+    containerButton: {
+        backgroundColor: 'white',
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 80
+    },
+    containerButtonText: {
+        flex: 1,
+        textAlign: 'center'
+    }
 });
