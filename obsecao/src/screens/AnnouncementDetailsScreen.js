@@ -3,6 +3,9 @@ import {Dimensions, Image, View, Text, StyleSheet} from 'react-native'
 import {Button, Container, Content, Icon,  Tab, Tabs} from 'native-base'
 import {HeaderComponent} from 'Components'
 import {AuthenticationService} from 'Services'
+import  AnnouncementInfosTab from './AnnouncementInfosTab'
+import  AnnouncementMessagesTab  from './AnnouncementMessagesTab'
+import  AnnouncementPhotosTab  from './AnnouncementPhotosTab'
 
 const tmpSplash = require('../../assets/splash.png')
 
@@ -112,8 +115,8 @@ export default class AnnouncementDetailsScreen extends React.Component {
                     </View>
                     <View style={styles.containerButtons}>
                         <Button style={styles.containerButton}>
-                            <Icon name='md-chatbubbles' style={{color: '#000'}} />
-                            <Text>Chat</Text>
+                            <Icon name='md-call' style={{color: '#000'}} />
+                            <Text>Contato</Text>
                         </Button>
 
                         <Button style={styles.containerButton}>
@@ -125,17 +128,13 @@ export default class AnnouncementDetailsScreen extends React.Component {
                     <View>
                         <Tabs>
                             <Tab heading="Infos">
-                                <View>
-                                    <Text style={styles.announcementDescription}>
-                                        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris id dapibus arcu. Ut posuere est at lectus pharetra vehicula. Mauris lacinia dui non consequat hendrerit. Suspendisse at mattis massa.
-                                    </Text>
-                                </View>
+                                <AnnouncementInfosTab />
                             </Tab>
                             <Tab heading="Fotos">
-                                <View></View>
+                                <AnnouncementPhotosTab />
                             </Tab>
-                            <Tab heading="Contato">
-                                <View></View>
+                            <Tab heading="Mensagens">
+                                <AnnouncementMessagesTab />
                             </Tab>
                         </Tabs>
                     </View>
