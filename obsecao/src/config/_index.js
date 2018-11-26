@@ -2,10 +2,6 @@
  * @providesModule AppConfig
  */
 
-const {version, apiUrl, apiVersion} = Expo.Constants.manifest.extra
+const AppConfig = Expo.Constants.manifest.extra
 
-export default {
-    version,
-    apiUrl,
-    apiVersion
-}
+export default { AppConfig }

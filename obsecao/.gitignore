@@ -1,3 +1,5 @@
+.vscode/**/*
+android/**/*
 node_modules/**/*
 .expo/*
 npm-debug.*

@@ -2,7 +2,7 @@ import React from 'react'
 import {Dimensions, Image, FlatList, View, Text, StyleSheet, TouchableHighlight} from 'react-native'
 import {Button, Container, Content, Icon} from 'native-base'
 import {HeaderComponent} from 'Components'
-import {AuthenticationService, NavigationService} from 'Services'
+import {AuthenticationService, NavigationService, FeedService} from 'Services'
 
 const tmpSplash = require('../../assets/splash.png')
 
@@ -98,9 +98,21 @@ export default class AnnouncementsScreen extends React.Component {
         super(props);
 
         this.state = {
-            dataSource: data,
+            dataSource: [],
         };
+
+        this.loadFeed()
     }
+    
+    loadFeed() {
+
+        return FeedService.feed()
+            .then(feed => {
+                if(!feed) feed = []
+                this.setState({dataSource: feed})
+            })
+    }
+
     
     render() {
         const {height} = Dimensions.get('window')
@@ -128,7 +140,11 @@ export default class AnnouncementsScreen extends React.Component {
                     </View>
                     <Text style={styles.announcementTitle}>{rowData.title}</Text>
                     <View style={styles.infos}>
-                        <Text style={styles.announcementAge}>{rowData.age}</Text>
+                        <View>
+                            <Text style={styles.announcementAge}>{rowData.age}</Text>
+                            <Text style={styles.announcementAge}>{rowData.race}</Text>
+                            <Text style={styles.announcementAge}>{rowData.size}</Text>
+                        </View>
                         <Text style={styles.announcementCreatedAt}>{rowData.createdAt}</Text>
                     </View>
                 </View>
@@ -161,7 +177,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
     },
     announcementTitle: {
-        fontSize: 24,
+        fontSize: 18,
         color: 'white',
         fontWeight: 'bold'
     },
