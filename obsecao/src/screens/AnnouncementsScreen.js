@@ -1,88 +1,22 @@
 import React from 'react'
-import {Dimensions, Image, FlatList, View, Text, StyleSheet, TouchableHighlight} from 'react-native'
-import {Button, Container, Content, Icon} from 'native-base'
-import {HeaderComponent} from 'Components'
-import {AuthenticationService, NavigationService, FeedService} from 'Services'
-
-const tmpSplash = require('../../assets/splash.png')
-
-const data = [
-    {
-        title: 'Bidu',
-        key: 1,
-        createdAt: 'jun 2018',
-        age: '3 anos',
-        avatar: require('../../assets/images/dogs/1.jpg')
-    },
-    {
-        title: 'Toco',
-        key: 2,
-        createdAt: 'ago 2018',
-        age: '13 anos',
-        avatar: require('../../assets/images/dogs/2.jpg')
-    },
-    {
-        title: 'Derp',
-        key: 3,
-        createdAt: 'fev 2018',
-        age: '5 anos',
-        avatar: require('../../assets/images/dogs/3.jpg')
-    },
-    {
-        title: 'Lady',
-        key: 4,
-        createdAt: 'jun 2018',
-        age: '4 anos',
-        avatar: require('../../assets/images/dogs/4.jpg')
-    },
-    {
-        title: 'Zeferino',
-        key: 5,
-        createdAt: 'abr 2015',
-        age: '3 anos',
-        avatar: require('../../assets/images/dogs/5.jpg')
-    },
-    {
-        title: 'Bengala',
-        key: 6,
-        createdAt: 'jul 2017',
-        age: '3 meses',
-        avatar: require('../../assets/images/dogs/6.jpg')
-    },
-    {
-        title: 'Simba',
-        key: 7,
-        createdAt: 'jun 2018',
-        age: '5 anos',
-        avatar: require('../../assets/images/dogs/7.jpg')
-    },
-    {
-        title: 'Nico',
-        key: 8,
-        createdAt: 'jun 2018',
-        age: '4 meses',
-        avatar: require('../../assets/images/dogs/8.jpg')
-    },
-    {
-        title: 'Otto',
-        key: 9,
-        createdAt: 'jun 2018',
-        age: '3 meses',
-        avatar: require('../../assets/images/dogs/9.jpg')
-    },
-    {
-        title: 'Cleo',
-        key: 10,
-        createdAt: 'jun 2018',
-        age: '8 anos',
-        avatar: require('../../assets/images/dogs/10.jpg')
-    }
-]
+import { Dimensions, Image, FlatList, View, Text, StyleSheet, TouchableHighlight } from 'react-native'
+import { Button, Container, Content, Icon } from 'native-base'
+import { HeaderComponent } from 'Components'
+import { AuthenticationService, NavigationService, FeedService } from 'Services'
+import { colors } from 'Styles'
+import moment from 'moment'
 
 function renderRight() {
     return (
-        <Button onPress={logout.bind(this)} transparent><Icon name={'exit'}/></Button>
+        <Button onPress={logout.bind(this)} transparent><Icon name={'exit'} /></Button>
     )
+}
+
+function getImageOrDefault(photo) {
+    if (!photo)
+        return require('../../assets/images/dog.png')
+
+    return { uri: `data:image/jpeg;base64,${photo.image}` }
 }
 
 function logout() {
@@ -90,7 +24,11 @@ function logout() {
 }
 
 function goToNextScreen(key) {
-    NavigationService.announcementDetails.navigateTo()
+    NavigationService.announcementDetails.navigateTo({idAnnouncement: key})
+}
+
+function formatSince(date) {
+    return FeedService.formatSince(moment(date));
 }
 
 export default class AnnouncementsScreen extends React.Component {
@@ -103,28 +41,29 @@ export default class AnnouncementsScreen extends React.Component {
 
         this.loadFeed()
     }
-    
+
     loadFeed() {
 
         return FeedService.feed()
             .then(feed => {
-                if(!feed) feed = []
-                this.setState({dataSource: feed})
+                if (!feed) feed = []
+                this.setState({ dataSource: feed })
             })
     }
 
-    
+
     render() {
-        const {height} = Dimensions.get('window')
+        const { height } = Dimensions.get('window')
 
         return (
             <Container>
-                <HeaderComponent title={'Announcements'} right={renderRight.bind(this)}/>
+                <HeaderComponent title={'Announcements'} right={renderRight.bind(this)} />
                 <Content scrollEnabled={true}>
                     <FlatList contentContainerStyle={styles.announcementList}
                         numColumns={2}
                         data={this.state.dataSource}
                         renderItem={(rowData) => this.renderItem(rowData.item)}
+                        keyExtractor={(item, index) => item._id}
                     />
                 </Content>
             </Container>
@@ -133,19 +72,20 @@ export default class AnnouncementsScreen extends React.Component {
 
     renderItem(rowData) {
         return (
-            <TouchableHighlight onPress={ goToNextScreen.bind(this, rowData.key)} style={styles.announcementView}>
+            <TouchableHighlight onPress={goToNextScreen.bind(this, rowData._id)} style={styles.announcementView}>
                 <View style={styles.announcementFullWidthView}>
-                    <View style={styles.avatar}>
-                        <Image style={styles.announcementAvatar} source={rowData.avatar}></Image>
+                    <View style={styles.centerContent}>
+                        <Image style={styles.announcementAvatar} source={getImageOrDefault(rowData.avatar)}></Image>
+                        <Text style={styles.announcementTitle}>{rowData.title}, {rowData.age}</Text>
                     </View>
-                    <Text style={styles.announcementTitle}>{rowData.title}</Text>
                     <View style={styles.infos}>
-                        <View>
+                        {/* <Text style={styles.announcementAge}>{rowData.race}</Text> */}
+                        {/* <View>
                             <Text style={styles.announcementAge}>{rowData.age}</Text>
                             <Text style={styles.announcementAge}>{rowData.race}</Text>
                             <Text style={styles.announcementAge}>{rowData.size}</Text>
-                        </View>
-                        <Text style={styles.announcementCreatedAt}>{rowData.createdAt}</Text>
+                        </View> */}
+                        {/* <Text style={styles.announcementCreatedAt}>há {formatSince(rowData.createdAt)}</Text> */}
                     </View>
                 </View>
             </TouchableHighlight>
@@ -154,46 +94,49 @@ export default class AnnouncementsScreen extends React.Component {
 }
 
 var styles = StyleSheet.create({
-    
     announcementList: {
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.light,
     },
     announcementView: {
-        backgroundColor: 'green',
         margin: 5,
         padding: 5,
-        flex: 1,
-        height: 220
+        flex: 1
     },
-    announcementFullWidthView: { 
+    announcementFullWidthView: {
         flex: 1
     },
     announcementAvatar: {
         width: 160,
-        height: 160
+        height: 160,
+        borderRadius: 80
     },
-    avatar: {
+    centerContent: {
         alignItems: 'center',
         justifyContent: 'center',
     },
     announcementTitle: {
         fontSize: 18,
-        color: 'white',
-        fontWeight: 'bold'
+        color: colors.dark,
+        fontWeight: 'bold',
+        paddingBottom: 5,
+        paddingTop: 5
     },
     infos: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flex: 1
-    }, 
+        flex: 1,
+        paddingBottom: 10,
+        paddingTop: 5
+    },
     announcementCreatedAt: {
         fontSize: 14,
-        width: 130,
-        color: 'white',
+        width: 150,
+        color: colors.dark,
     },
     announcementAge: {
         fontSize: 14,
         width: 110,
-        color: 'white',
+        color: colors.dark,
     },
 });

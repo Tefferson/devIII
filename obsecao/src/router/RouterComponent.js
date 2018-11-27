@@ -4,7 +4,7 @@
 import React from 'react'
 import {Root} from 'native-base'
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation'
-import {HomeScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen, AnnouncementDetailsScreen} from 'Screens'
+import {HomeScreen, CameraScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen, AnnouncementDetailsScreen, AnnouncementCreationScreen} from 'Screens'
 import {NavigationService} from 'Services'
 import {Provider} from 'react-redux'
 import {LoaderComponent} from 'Components'
@@ -21,7 +21,14 @@ const HomeDrawer = createDrawerNavigator({
         screen: AnnouncementsScreen,
         navigationOptions: {
             header: null,
-            title: "Anúncios"
+            title: "Buscar um cãozinho"
+        }
+    },
+    AnnouncementCreation: {
+        screen: AnnouncementCreationScreen,
+        navigationOptions: {
+            header: null,
+            title: "Publicar anúncio de adoção"
         }
     }
 })
@@ -55,6 +62,18 @@ const AppRoot = createStackNavigator({
         screen: AnnouncementDetailsScreen,
         navigationOptions: {
             header: null
+        }
+    },
+    AnnouncementCreation: {
+        screen: AnnouncementCreationScreen,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Camera: {
+        screen: CameraScreen,
+        navigationOptions: {
+            header: null,
         }
     }
 }, {initialRouteName: 'Login'})

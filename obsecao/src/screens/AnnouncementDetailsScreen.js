@@ -2,85 +2,11 @@ import React from 'react'
 import {Dimensions, Image, View, Text, StyleSheet} from 'react-native'
 import {Button, Container, Content, Icon,  Tab, Tabs} from 'native-base'
 import {HeaderComponent} from 'Components'
-import {AuthenticationService} from 'Services'
+import {AuthenticationService, FeedService} from 'Services'
 import  AnnouncementInfosTab from './AnnouncementInfosTab'
 import  AnnouncementMessagesTab  from './AnnouncementMessagesTab'
 import  AnnouncementPhotosTab  from './AnnouncementPhotosTab'
-
-const tmpSplash = require('../../assets/splash.png')
-
-const data = [
-    {
-        title: 'Bidu',
-        key: 1,
-        createdAt: 'jun 2018',
-        age: '3 anos',
-        avatar: require('../../assets/images/dogs/1.jpg')
-    },
-    {
-        title: 'Toco',
-        key: 2,
-        createdAt: 'ago 2018',
-        age: '13 anos',
-        avatar: require('../../assets/images/dogs/2.jpg')
-    },
-    {
-        title: 'Derp',
-        key: 3,
-        createdAt: 'fev 2018',
-        age: '5 anos',
-        avatar: require('../../assets/images/dogs/3.jpg')
-    },
-    {
-        title: 'Lady',
-        key: 4,
-        createdAt: 'jun 2018',
-        age: '4 anos',
-        avatar: require('../../assets/images/dogs/4.jpg')
-    },
-    {
-        title: 'Zeferino',
-        key: 5,
-        createdAt: 'abr 2015',
-        age: '3 anos',
-        avatar: require('../../assets/images/dogs/5.jpg')
-    },
-    {
-        title: 'Bengala',
-        key: 6,
-        createdAt: 'jul 2017',
-        age: '3 meses',
-        avatar: require('../../assets/images/dogs/6.jpg')
-    },
-    {
-        title: 'Simba',
-        key: 7,
-        createdAt: 'jun 2018',
-        age: '5 anos',
-        avatar: require('../../assets/images/dogs/7.jpg')
-    },
-    {
-        title: 'Nico',
-        key: 8,
-        createdAt: 'jun 2018',
-        age: '4 meses',
-        avatar: require('../../assets/images/dogs/8.jpg')
-    },
-    {
-        title: 'Otto',
-        key: 9,
-        createdAt: 'jun 2018',
-        age: '3 meses',
-        avatar: require('../../assets/images/dogs/9.jpg')
-    },
-    {
-        title: 'Cleo',
-        key: 10,
-        createdAt: 'jun 2018',
-        age: '8 anos',
-        avatar: require('../../assets/images/dogs/10.jpg')
-    }
-]
+import { colors } from 'Styles';
 
 function renderRight() {
     return (
@@ -92,13 +18,32 @@ function logout() {
     AuthenticationService.logout()
 }
 
+function getImageOrDefault(photo) {
+    if (!photo)
+        return require('../../assets/images/dog.png')
+
+    return { uri: `data:image/jpeg;base64,${photo.image}` }
+}
+
 export default class AnnouncementDetailsScreen extends React.Component {
     constructor(props) {
         super(props);
 
+        let idAnnouncement = this.props.navigation.getParam("idAnnouncement");
+
         this.state = {
-            item: data[0],
+            item: {},
         };
+
+        this.loadData(idAnnouncement)
+    }
+
+    loadData(idAnnouncement) {
+        return FeedService.getAnnouncement(idAnnouncement)
+            .then(announcement => {
+                if (!announcement) announcement = {}
+                this.setState({ item: announcement })
+            })
     }
     
     render() {
@@ -109,9 +54,8 @@ export default class AnnouncementDetailsScreen extends React.Component {
                 <HeaderComponent title={'Announcements'} right={renderRight.bind(this)}/>
                 <Content scrollEnabled={true}>
                     <View style={styles.announcementHeader}>
-                        <Image style={styles.announcementAvatar} source={this.state.item.avatar} style={{width: 160, height: 160, borderRadius: 160/2}}></Image>
-                        <Text style={styles.announcementTitle}>{this.state.item.title}</Text>
-                        <Text style={styles.announcementAge}>{this.state.item.age}</Text>
+                        <Image style={styles.announcementAvatar} source={getImageOrDefault(this.state.item.avatar)} style={{width: 160, height: 160, borderRadius: 160/2}}></Image>
+                        <Text style={styles.announcementTitle}>{this.state.item.title}, {this.state.item.age}</Text>
                     </View>
                     <View style={styles.containerButtons}>
                         <Button style={styles.containerButton}>
@@ -128,13 +72,13 @@ export default class AnnouncementDetailsScreen extends React.Component {
                     <View>
                         <Tabs>
                             <Tab heading="Infos">
-                                <AnnouncementInfosTab />
+                                <AnnouncementInfosTab item={this.state.item}/>
                             </Tab>
                             <Tab heading="Fotos">
-                                <AnnouncementPhotosTab />
+                                <AnnouncementPhotosTab item={this.state.item}/>
                             </Tab>
                             <Tab heading="Mensagens">
-                                <AnnouncementMessagesTab />
+                                <AnnouncementMessagesTab item={this.state.item}/>
                             </Tab>
                         </Tabs>
                     </View>
@@ -149,7 +93,7 @@ var styles = StyleSheet.create({
     announcementHeader: {
         flex: 1,
         height: 230,
-        backgroundColor: 'green',
+        backgroundColor: colors.light,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -173,7 +117,9 @@ var styles = StyleSheet.create({
     },
     announcementTitle: {
         fontSize: 24,
-        color: 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        color: colors.black,
         fontWeight: 'bold'
     },
     infos: {
@@ -190,7 +136,7 @@ var styles = StyleSheet.create({
     },
     announcementAge: {
         fontSize: 14,
-        color: 'white',
+        color: colors.black,
     },
     containerButtons: {
         flexDirection: 'row',

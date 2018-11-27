@@ -1,7 +1,7 @@
 import React from 'react'
 import {StatusBar, StyleSheet, Picker} from 'react-native'
 import {Header, Body, Title, Icon, Button} from 'native-base'
-import {Colors} from 'Styles'
+import {colors} from 'Styles'
 import { withNavigation } from 'react-navigation';
 
 class HeaderComponent extends React.Component {
@@ -28,7 +28,7 @@ function showMenu() {
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: Colors.primary,
+        backgroundColor: colors.primary,
         marginTop: (StatusBar.currentHeight)
     }
 })

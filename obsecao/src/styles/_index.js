@@ -1,9 +1,6 @@
 /**
  * @providesModule Styles
  */
+import ThemeBase, { images, colors, fonts } from './theme-base'
 
-const Colors = {
-    primary: '#c29d35'
-}
-
-export {Colors}
+export {ThemeBase, images, colors, fonts}
