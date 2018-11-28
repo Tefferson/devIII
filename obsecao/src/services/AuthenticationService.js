@@ -3,18 +3,8 @@ import {userActions, generalActions} from 'Actions'
 import {Toast} from 'native-base'
 import {NavigationService} from 'Services'
 import HttpService from './HttpService';
-import { KEYS } from './StorageService'
+import StorageService from './StorageService'
 import {AsyncStorage} from 'react-native'
-
-// TODO: mock
-async function cleanUserCache() {
-    try{
-        return await AsyncStorage.removeItem(KEYS.user)
-    }
-    catch(e){
-
-    }
-}
 
 export default class AuthenticationService {
     static async login(user, password) {
@@ -25,9 +15,8 @@ export default class AuthenticationService {
             password: password
         };
         
-        await cleanUserCache();
-
-        return HttpService
+        return StorageService.user.removeAsync().then(
+            () => HttpService
             .post('/authenticate', params)
             .then((data) => {
                 let user = data.data;
@@ -40,6 +29,8 @@ export default class AuthenticationService {
                 store.dispatch(generalActions.hideLoader())
                 Toast.show({text: 'Credenciais inválidas', buttonText: 'OK', duration: 3000, type: 'warning'})
             })
+        )
+
         // return new Promise((success, reject) => {
         //     setTimeout(() => {
         //         store.dispatch(generalActions.hideLoader())
