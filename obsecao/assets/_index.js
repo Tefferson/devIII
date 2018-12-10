@@ -5,7 +5,8 @@
 const Icons = {}
 
 const Images = {
-    background: require('./images/bg-main.png')
+    background: require('./images/bg-main.png'),
+    backgroundCelebration: require('./images/bg-celebration.png')
 }
 
 const Fonts = {

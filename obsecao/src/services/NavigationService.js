@@ -20,13 +20,36 @@ const home = {
     resetTo: reset('Home')
 }
 
+const announcements = {
+    navigateTo: navigate('Announcements'),
+    resetTo: reset('Announcements')
+}
+
+const camera = {
+    navigateTo: navigate('Camera'),
+    resetTo: reset('Camera')
+}
+
+const announcementDetails = {
+    navigateTo: navigate('AnnouncementDetails'),
+    resetTo: reset('AnnouncementDetails')
+}
+
 const login = {
     navigateTo: navigate('Login'),
     resetTo: reset('Login')
 }
 
+const registration = {
+    navigateTo: navigate('Registration')
+}
+
 export default {
     setTopLevelNavigator,
     home,
-    login
+    camera,
+    announcements,
+    announcementDetails,
+    login,
+    registration
 }

@@ -1,15 +1,15 @@
 import React from 'react'
 import {Text, StyleSheet} from 'react-native'
 import {Button} from 'native-base'
-import {colors} from 'Styles'
+import {Colors} from 'Styles'
 
-export default class ButtonComponent extends React.Component {
+export default class AnchorButtonComponent extends React.Component {
 
     render() {
         const {text} = this.props
 
         return (
-            <Button style={styles.button} {...this.props}>
+            <Button style={styles.button} transparent {...this.props}>
                 <Text style={styles.text}>{text}</Text>
             </Button>
         )
@@ -18,10 +18,10 @@ export default class ButtonComponent extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: colors.primary,
         borderRadius: 4
     },
     text: {
-        color: 'white'
+        color: 'white',
+        textDecorationLine: 'underline'
     }
 })

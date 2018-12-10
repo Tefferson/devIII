@@ -1,25 +1,30 @@
 import React from 'react'
-import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native'
+import {Dimensions, ImageBackground, Keyboard, StyleSheet, View} from 'react-native'
 import {
     Container,
     Content,
     Form,
     Input,
     Item,
-    Label,
-    Toast
+    Label
 } from 'native-base'
-import {ButtonComponent} from 'Components'
-import {NavigationService} from 'Services'
+import {AnchorButtonComponent, ButtonComponent} from 'Components'
+import {AuthenticationService, NavigationService} from 'Services'
 import {Images} from 'Assets'
+import {connect} from 'react-redux'
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             user: '',
             password: ''
         }
+    }
+
+    componentWillReceiveProps({user}) {
+        if (user) 
+            NavigationService.home.resetTo()
     }
 
     render() {
@@ -61,7 +66,14 @@ export default class LoginScreen extends React.Component {
                                         secureTextEntry/>
                                 </Item>
                                 <View style={styles.buttonContainer}>
-                                    <ButtonComponent text={'Entrar'} onPress={tryLogin.bind(this)} full/>
+                                    <ButtonComponent
+                                        text={'Entrar'}
+                                        onPress={() => Keyboard.dismiss() || tryLogin.call(this)}
+                                        full/>
+                                    <AnchorButtonComponent
+                                        text={'Cadastrar-se'}
+                                        onPress={register.bind(this)}
+                                        full/>
                                 </View>
                             </Form>
                         </View>
@@ -74,10 +86,13 @@ export default class LoginScreen extends React.Component {
 
 function tryLogin() {
     const {user, password} = this.state
-    if (user == 'grupo4' && password == 'grupo4') 
-        NavigationService.home.resetTo()
-    else 
-        Toast.show({text: 'Credenciais inválidas', buttonText: 'OK', duration: 3000, type: 'warning'})
+    AuthenticationService.login(user, password)
+}
+
+function register() {
+    NavigationService
+        .registration
+        .navigateTo()
 }
 
 const styles = StyleSheet.create({
@@ -96,3 +111,11 @@ const styles = StyleSheet.create({
         color: 'white'
     }
 })
+
+const mapStateToProps = ({user}) => ({
+    user: user && user.user
+})
+
+const connectedScreen = connect(mapStateToProps)(LoginScreen)
+
+export default connectedScreen

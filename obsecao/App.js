@@ -1,6 +1,6 @@
 import React from 'react'
 import RouterComponent from 'Router'
-import { Font } from 'expo'
+import {Font} from 'expo'
 
 export default class App extends React.Component {
   state = {

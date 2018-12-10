@@ -5,10 +5,7 @@
     "slug": "obsecao",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,17 +20,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "android": {
-      "package": "br.com.deviii.obsecao",
-      "versionCode": 6
-    },
+		"android": {
+			"package": "br.com.deviii.obsecao",
+			"versionCode": 6
+		},
     "ios": {
       "supportsTablet": true
-    },
-    "extra": {
-      "version": "1.0.0",
-      "apiUrl": "http://192.168.25.11:8080",
-      "apiVersion": "1.0.0"
     }
   }
 }
