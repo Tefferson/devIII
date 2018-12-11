@@ -20,6 +20,7 @@ const KEYS = {
 
 export default class StorageService {
     static user = {
+        getItemAsync: () => getItemAsync(KEYS.user),
         getAsync: () => getItemAsync(KEYS.user).then(parser),
         setAsync: user => setItemAsync(KEYS.user, JSON.stringify(user)),
         removeAsync: () => deleteItemAsync(KEYS.user)

@@ -20,6 +20,21 @@ const home = {
     resetTo: reset('Home')
 }
 
+const announcements = {
+    navigateTo: navigate('Announcements'),
+    resetTo: reset('Announcements')
+}
+
+const camera = {
+    navigateTo: navigate('Camera'),
+    resetTo: reset('Camera')
+}
+
+const announcementDetails = {
+    navigateTo: navigate('AnnouncementDetails'),
+    resetTo: reset('AnnouncementDetails')
+}
+
 const login = {
     navigateTo: navigate('Login'),
     resetTo: reset('Login')
@@ -29,9 +44,18 @@ const registration = {
     navigateTo: navigate('Registration')
 }
 
+const announcementManagement = {
+    navigateTo: navigate('AnnouncementCreation'),
+    resetTo: reset('AnnouncementCreation')
+}
+
 export default {
     setTopLevelNavigator,
     home,
+    camera,
+    announcements,
+    announcementDetails,
+    announcementManagement,
     login,
     registration
 }

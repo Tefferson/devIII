@@ -1,13 +1,13 @@
 import React from 'react'
 import {View, StyleSheet} from 'react-native'
 import {Pulse} from 'react-native-loader'
-import {Colors} from 'Styles'
+import {colors} from 'Styles'
 
 export default class LoaderComponent extends React.Component {
     render() {
         return this.props.show && (
             <View style={styles.container}>
-                <Pulse size={25} color={Colors.primary}/>
+                <Pulse size={25} color={colors.primary}/>
             </View>
         ) || null
     }

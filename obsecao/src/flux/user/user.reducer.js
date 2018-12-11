@@ -14,6 +14,7 @@ const userReducer = (initialState = defaultState, {
 
         case userConstants.logout:
             return null
+
         default:
             return state
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text, StyleSheet} from 'react-native'
 import {Button} from 'native-base'
-import {Colors} from 'Styles'
+import {colors} from 'Styles'
 
 export default class ButtonComponent extends React.Component {
 
@@ -18,7 +18,7 @@ export default class ButtonComponent extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: Colors.primary,
+        backgroundColor: colors.primary,
         borderRadius: 4
     },
     text: {
