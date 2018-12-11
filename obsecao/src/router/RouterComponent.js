@@ -4,7 +4,7 @@
 import React from 'react'
 import {Root} from 'native-base'
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation'
-import {HomeScreen, CameraScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen, AnnouncementDetailsScreen, AnnouncementCreationScreen} from 'Screens'
+import {HomeScreen, CameraScreen, LoginScreen, RegistrationScreen, AnnouncementsScreen, AnnouncementDetailsScreen, AnnouncementManagementScreen} from 'Screens'
 import {NavigationService} from 'Services'
 import {Provider} from 'react-redux'
 import {LoaderComponent} from 'Components'
@@ -25,7 +25,7 @@ const HomeDrawer = createDrawerNavigator({
         }
     },
     AnnouncementCreation: {
-        screen: AnnouncementCreationScreen,
+        screen: AnnouncementManagementScreen,
         navigationOptions: {
             header: null,
             title: "Publicar anúncio de adoção"
@@ -65,7 +65,7 @@ const AppRoot = createStackNavigator({
         }
     },
     AnnouncementCreation: {
-        screen: AnnouncementCreationScreen,
+        screen: AnnouncementManagementScreen,
         navigationOptions: {
             header: null,
         }

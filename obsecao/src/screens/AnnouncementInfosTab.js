@@ -3,6 +3,8 @@ import { Dimensions, Image, View, Text, StyleSheet } from 'react-native'
 import { Button, CheckBox, Card, CardItem, Body, ListItem, Icon } from 'native-base'
 import { HeaderComponent } from 'Components'
 import { AuthenticationService } from 'Services'
+import FeedService from '../services/FeedService';
+import NavigationService from '../services/NavigationService';
 
 export default class AnnouncementInfosTab extends React.Component {
     constructor(props) {
@@ -11,8 +13,9 @@ export default class AnnouncementInfosTab extends React.Component {
 
     renderParams() {
         if (this.props.item.params) {
-            return this.props.item.params.map(item =>
-                    <ListItem style={styles.listItem}>
+            return this.props.item.params.map((item, i) =>
+                    <ListItem style={styles.listItem} key={i}
+                    >
                         <Icon name={item.checked ? "md-checkmark" : "md-close"} style={item.checked ? styles.checkedIcon : styles.uncheckedIcon} />
                         <Body>
                             <Text>{item.value}</Text>
@@ -52,7 +55,6 @@ export default class AnnouncementInfosTab extends React.Component {
                     <Text style={styles.descriptionText}>{this.props.item.description}</Text>
                 </View>
                 {this.renderParams()}
-
             </View>
         )
     }

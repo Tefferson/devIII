@@ -44,12 +44,18 @@ const registration = {
     navigateTo: navigate('Registration')
 }
 
+const announcementManagement = {
+    navigateTo: navigate('AnnouncementCreation'),
+    resetTo: reset('AnnouncementCreation')
+}
+
 export default {
     setTopLevelNavigator,
     home,
     camera,
     announcements,
     announcementDetails,
+    announcementManagement,
     login,
     registration
 }

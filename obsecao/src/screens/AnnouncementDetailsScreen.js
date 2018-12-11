@@ -1,28 +1,21 @@
 import React from 'react'
-import {Dimensions, Image, View, Text, StyleSheet} from 'react-native'
-import {Button, Container, Content, Icon,  Tab, Tabs} from 'native-base'
-import {HeaderComponent} from 'Components'
-import {AuthenticationService, FeedService} from 'Services'
-import  AnnouncementInfosTab from './AnnouncementInfosTab'
-import  AnnouncementMessagesTab  from './AnnouncementMessagesTab'
-import  AnnouncementPhotosTab  from './AnnouncementPhotosTab'
+import { Dimensions, Image, View, Text, StyleSheet } from 'react-native'
+import { Button, Container, Content, Icon, Tab, Tabs } from 'native-base'
+import { HeaderComponent } from 'Components'
+import { AuthenticationService, FeedService, GalleryService } from 'Services'
+import AnnouncementInfosTab from './AnnouncementInfosTab'
+import AnnouncementMessagesTab from './AnnouncementMessagesTab'
+import AnnouncementPhotosTab from './AnnouncementPhotosTab'
 import { colors } from 'Styles';
 
 function renderRight() {
     return (
-        <Button onPress={logout.bind(this)} transparent><Icon name={'exit'}/></Button>
+        <Button onPress={logout.bind(this)} transparent><Icon name={'exit'} /></Button>
     )
 }
 
 function logout() {
     AuthenticationService.logout()
-}
-
-function getImageOrDefault(photo) {
-    if (!photo)
-        return require('../../assets/images/dog.png')
-
-    return { uri: `data:image/jpeg;base64,${photo.image}` }
 }
 
 export default class AnnouncementDetailsScreen extends React.Component {
@@ -45,26 +38,48 @@ export default class AnnouncementDetailsScreen extends React.Component {
                 this.setState({ item: announcement })
             })
     }
-    
+
+    gotInterested() {
+        if (this.state.item) {
+            if (this.state.item.favorite) {
+                FeedService.removeFromFavorites(this.state.item._id).then(() => {
+                    this.state.item.favorite = false
+                    this.setState({item: this.state.item})
+                })
+            }
+            else {
+                FeedService.addAsFavorite(this.state.item._id).then(() => {
+                    this.state.item.favorite = true
+                    this.setState({item: this.state.item})
+                })
+            }
+        }
+    }
+
+    adopt() {
+
+    }
+
     render() {
-        const {height} = Dimensions.get('window')
+        const { height } = Dimensions.get('window')
+        const interestText = (this.state.item && this.state.item.favorite) ? "Não tenho interesse" : "Tenho interesse"
 
         return (
             <Container>
-                <HeaderComponent title={'Announcements'} right={renderRight.bind(this)}/>
+                <HeaderComponent title={'Announcements'} right={renderRight.bind(this)} />
                 <Content scrollEnabled={true}>
                     <View style={styles.announcementHeader}>
-                        <Image style={styles.announcementAvatar} source={getImageOrDefault(this.state.item.avatar)} style={{width: 160, height: 160, borderRadius: 160/2}}></Image>
+                        <Image style={styles.announcementAvatar} source={GalleryService.getImageOrDefault(this.state.item.avatar)} style={{ width: 160, height: 160, borderRadius: 160 / 2 }}></Image>
                         <Text style={styles.announcementTitle}>{this.state.item.title}, {this.state.item.age}</Text>
                     </View>
                     <View style={styles.containerButtons}>
-                        <Button style={styles.containerButton}>
-                            <Icon name='md-call' style={{color: '#000'}} />
-                            <Text>Contato</Text>
+                        <Button style={styles.containerButton} onPress={() => this.gotInterested()}>
+                            <Icon name='md-call' style={{ color: '#000' }} />
+                            <Text>{interestText}</Text>
                         </Button>
 
-                        <Button style={styles.containerButton}>
-                            <Icon name='md-paw' style={{color: '#000'}} />
+                        <Button style={styles.containerButton} onPress={() => this.adopt()}>
+                            <Icon name='md-paw' style={{ color: '#000' }} />
                             <Text>Adotar</Text>
                         </Button>
                     </View>
@@ -72,13 +87,13 @@ export default class AnnouncementDetailsScreen extends React.Component {
                     <View>
                         <Tabs>
                             <Tab heading="Infos">
-                                <AnnouncementInfosTab item={this.state.item}/>
+                                <AnnouncementInfosTab item={this.state.item} />
                             </Tab>
                             <Tab heading="Fotos">
-                                <AnnouncementPhotosTab item={this.state.item}/>
+                                <AnnouncementPhotosTab item={this.state.item} />
                             </Tab>
                             <Tab heading="Mensagens">
-                                <AnnouncementMessagesTab item={this.state.item}/>
+                                <AnnouncementMessagesTab item={this.state.item} />
                             </Tab>
                         </Tabs>
                     </View>
@@ -89,7 +104,7 @@ export default class AnnouncementDetailsScreen extends React.Component {
 }
 
 var styles = StyleSheet.create({
-    
+
     announcementHeader: {
         flex: 1,
         height: 230,

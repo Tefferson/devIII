@@ -25,10 +25,10 @@ export default class HttpService {
                 result.headers.Authorization = `Bearer ${u.accessToken}`
             }
         } catch(error){
-            
+            console.log(error)
         }
     
-        return result
+        return await result
     }
 
     static get(endpoint, config) {
