@@ -3,6 +3,8 @@ import { Dimensions, Image, View, Text, StyleSheet } from 'react-native'
 import { Button, CheckBox, Card, CardItem, Body, ListItem, Icon } from 'native-base'
 import { HeaderComponent } from 'Components'
 import { AuthenticationService } from 'Services'
+import FeedService from '../services/FeedService';
+import NavigationService from '../services/NavigationService';
 
 export default class AnnouncementInfosTab extends React.Component {
     constructor(props) {
@@ -53,7 +55,6 @@ export default class AnnouncementInfosTab extends React.Component {
                     <Text style={styles.descriptionText}>{this.props.item.description}</Text>
                 </View>
                 {this.renderParams()}
-
             </View>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, ImageBackground, Keyboard, StyleSheet, ListView, Text, View } from 'react-native'
+import { Dimensions, ImageBackground, Keyboard, StyleSheet, ListView, Text, View, Alert } from 'react-native'
 import { HeaderComponent } from 'Components'
 import {
     Container, Button, Content, Form, Input, Item, Label, ListItem, CheckBox, Body, Toast
@@ -55,6 +55,24 @@ export default class AnnouncementBaseInfoEditTab extends React.Component {
         }
     }
 
+    finishAnnouncement() {
+        Alert.alert(
+            'Tem certeza?',
+            'Se realmente deseja remover o anúncio, selecione SIM',
+            [
+              {text: 'NÃO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: 'SIM, REMOVER ANÚNCIO', onPress: () => this.completeFinishAnnouncement() },
+            ],
+            { cancelable: true }
+          )
+    }
+
+    completeFinishAnnouncement() {
+        FeedService.finishAnnouncement(this.idAnnouncement).then(() => {
+            NavigationService.home.navigateTo()
+        })
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.item) {
             if (!nextProps.item.params) {
@@ -62,7 +80,7 @@ export default class AnnouncementBaseInfoEditTab extends React.Component {
             }
 
             this.idAnnouncement = nextProps.item._id
-    
+
             this.setState({
                 title: nextProps.item.title,
                 description: nextProps.item.description,
@@ -149,6 +167,16 @@ export default class AnnouncementBaseInfoEditTab extends React.Component {
             })
     }
 
+    showRemoveButton() {
+        const removeButton = (<Item>
+            <Button onPress={() => this.finishAnnouncement()} full >
+                <Text>Encerrar anúncio</Text>
+            </Button>
+        </Item>)
+
+        return (this.idAnnouncement) ? removeButton : null
+    }
+
     render() {
         const { height } = Dimensions.get('window')
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -222,6 +250,7 @@ export default class AnnouncementBaseInfoEditTab extends React.Component {
                             />
                         </View>
                     </Item>
+                    {this.showRemoveButton()}
                 </Form>
             </View>
         )
@@ -233,7 +262,6 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     form: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
     },
     input: {
@@ -252,6 +280,7 @@ const styles = StyleSheet.create({
         height: 30
     },
     sectionOptions: {
+        marginTop: 30,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',

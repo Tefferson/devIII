@@ -28,6 +28,7 @@
       "versionCode": 6
     },
     "ios": {
+      "bundleIdentifier": "br.com.deviii.obsecao",
       "supportsTablet": true
     },
     "extra": {

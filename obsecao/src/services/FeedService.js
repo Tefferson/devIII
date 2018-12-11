@@ -88,6 +88,20 @@ export default class FeedService {
             })
     }
 
+    static finishAnnouncement(announcementId) {
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .post(`/remove-announcement/${announcementId}`, null)
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
     static addAsFavorite(idAnnouncement) {
         
         store.dispatch(generalActions.showLoader())
