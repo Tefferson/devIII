@@ -2,29 +2,11 @@ import React from 'react'
 import { Dimensions, Image, FlatList, View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { Button, Container, Content, Icon } from 'native-base'
 import { HeaderComponent } from 'Components'
-import { AuthenticationService, NavigationService, FeedService, GalleryService } from 'Services'
-import { colors } from 'Styles'
+import { colors } from 'Styles';
+import { NavigationService, FeedService, GalleryService } from 'Services'
 import moment from 'moment'
 
-function renderRight() {
-    return (
-        <Button onPress={logout.bind(this)} transparent><Icon name={'exit'} /></Button>
-    )
-}
-
-function logout() {
-    AuthenticationService.logout()
-}
-
-function goToNextScreen(key) {
-    NavigationService.announcementDetails.navigateTo({idAnnouncement: key})
-}
-
-function formatSince(date) {
-    return FeedService.formatSince(moment(date));
-}
-
-export default class AnnouncementsScreen extends React.Component {
+export default class MyFavoriteAnnouncementsTab extends React.Component {
     constructor(props) {
         super(props);
 
@@ -37,7 +19,7 @@ export default class AnnouncementsScreen extends React.Component {
 
     loadFeed() {
 
-        return FeedService.feed()
+        return FeedService.getMyFavoriteAnnouncements()
             .then(feed => {
                 if (!feed) feed = []
                 this.setState({ dataSource: feed })
@@ -49,17 +31,14 @@ export default class AnnouncementsScreen extends React.Component {
         const { height } = Dimensions.get('window')
 
         return (
-            <Container>
-                <HeaderComponent title={'Announcements'} right={renderRight.bind(this)} />
-                <Content scrollEnabled={true}>
-                    <FlatList contentContainerStyle={styles.announcementList}
-                        numColumns={2}
-                        data={this.state.dataSource}
-                        renderItem={(rowData) => this.renderItem(rowData.item)}
-                        keyExtractor={(item, index) => item._id}
-                    />
-                </Content>
-            </Container>
+            <View>
+                <FlatList contentContainerStyle={styles.announcementList}
+                    numColumns={2}
+                    data={this.state.dataSource}
+                    renderItem={(rowData) => this.renderItem(rowData.item)}
+                    keyExtractor={(item, index) => item._id}
+                />
+            </View>
         )
     }
 
@@ -84,6 +63,15 @@ export default class AnnouncementsScreen extends React.Component {
             </TouchableHighlight>
         )
     }
+}
+
+
+function goToNextScreen(key) {
+    NavigationService.announcementDetails.navigateTo({idAnnouncement: key})
+}
+
+function formatSince(date) {
+    return FeedService.formatSince(moment(date));
 }
 
 var styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { Icon } from 'native-base'
+import { Camera, Permissions, ImagePicker } from 'expo';
 
 export default class CameraScreen extends React.Component {
   state = {
@@ -14,8 +15,20 @@ export default class CameraScreen extends React.Component {
 
       this.props.navigation.state.params.returnData(photo);
       this.props.navigation.goBack();
-
     }
+  }
+
+  async goBack() {
+    this.props.navigation.goBack();
+  }
+
+  async openGallery() {
+    let result = await ImagePicker.launchImageLibraryAsync();
+
+    console.log(result);
+
+    this.props.navigation.state.params.returnData(result);
+    this.props.navigation.goBack();
   }
 
   async componentWillMount() {
@@ -38,20 +51,39 @@ export default class CameraScreen extends React.Component {
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
               <TouchableOpacity
                 style={{
-                  flex: 0.1,
+                  alignSelf: 'flex-end',
+                  alignItems: 'flex-start',
+                }}
+                onPress={() => {
+                  this.goBack()
+                }}>
+                <Icon name="md-arrow-back" style={{ fontSize: 34, marginBottom: 30, color: 'white' }} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
                   alignSelf: 'flex-end',
                   alignItems: 'center',
                 }}
                 onPress={() => {
                   this.takePicture()
                 }}>
-                <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Take Photo{' '}
-                </Text>
+                <Icon name="md-camera" style={{ fontSize: 34, marginBottom: 30, color: 'white' }} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'flex-end'
+                }}
+                onPress={() => {
+                  this.openGallery()
+                }}>
+                <Icon name="md-photos" style={{ fontSize: 34, marginBottom: 30, color: 'white' }} />
               </TouchableOpacity>
             </View>
           </Camera>

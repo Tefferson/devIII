@@ -26,9 +26,7 @@ export default class AnnouncementPhotosTab extends React.Component {
                 .then(photos => {
                     let p = photos.map(item => { 
                         return { 
-                            photo: { 
-                                uri: `data:image/jpeg;base64,${item.image}` 
-                            } 
+                            photo: GalleryService.getImageOrDefault(item)
                         }
                     });
 

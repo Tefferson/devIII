@@ -11,8 +11,9 @@ export default class AnnouncementInfosTab extends React.Component {
 
     renderParams() {
         if (this.props.item.params) {
-            return this.props.item.params.map(item =>
-                    <ListItem style={styles.listItem}>
+            return this.props.item.params.map((item, i) =>
+                    <ListItem style={styles.listItem} key={i}
+                    >
                         <Icon name={item.checked ? "md-checkmark" : "md-close"} style={item.checked ? styles.checkedIcon : styles.uncheckedIcon} />
                         <Body>
                             <Text>{item.value}</Text>

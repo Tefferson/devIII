@@ -32,10 +32,82 @@ export default class FeedService {
             })
     }
 
+    static getMyAnnouncements() {
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .get(`/my-announcements`, {})
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
+    static getMyFavoriteAnnouncements() {
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .get(`/get-announcement/getFavorites`, {})
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
     static registerAnnouncement(announcement) {
         store.dispatch(generalActions.showLoader())
         return HttpService
             .post(`/create-announcement`, announcement)
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
+    static updateAnnouncement(announcement) {
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .post(`/update-announcement/${announcement._id}`, announcement)
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
+    static addAsFavorite(idAnnouncement) {
+        
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .post(`/get-announcement/${idAnnouncement}/addAsFavorite`, {})
+            .then((data) => {
+                store.dispatch(generalActions.hideLoader())
+                return data.data
+            })
+            .catch(error => {
+                Toast.show({text: 'Não foi possível realizar a operação', buttonText: 'OK', duration: 3000, type: 'warning'})
+                store.dispatch(generalActions.hideLoader())
+            })
+    }
+
+    static removeFromFavorites(idAnnouncement) {
+        
+        store.dispatch(generalActions.showLoader())
+        return HttpService
+            .post(`/get-announcement/${idAnnouncement}/removeFromFavorites`, {})
             .then((data) => {
                 store.dispatch(generalActions.hideLoader())
                 return data.data
