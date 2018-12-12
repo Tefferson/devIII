@@ -74,6 +74,10 @@ class LoginScreen extends React.Component {
                                         text={'Cadastrar-se'}
                                         onPress={register.bind(this)}
                                         full/>
+                                    <AnchorButtonComponent
+                                        text={'Recuperar senha'}
+                                        onPress={register.bind(this)}
+                                        full/>
                                 </View>
                             </Form>
                         </View>

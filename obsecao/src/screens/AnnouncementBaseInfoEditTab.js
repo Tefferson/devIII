@@ -6,7 +6,7 @@ import {
 } from 'native-base'
 import { ButtonComponent } from 'Components'
 import { FeedService, NavigationService } from 'Services'
-import { Images } from 'Assets'
+import { colors } from 'Styles'
 import { connect } from 'react-redux'
 
 export default class AnnouncementBaseInfoEditTab extends React.Component {
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     input: {
-        color: 'white'
+        color: colors.black
     },
     text: {
         flex: 1,
