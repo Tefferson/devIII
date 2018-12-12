@@ -7,7 +7,7 @@ export default class RegistrationService {
     static register(params) {
         store.dispatch(generalActions.showLoader())
         return HttpService
-            .get('/register', {params})
+            .post('/register', params)
             .then(() => {
                 store.dispatch(generalActions.hideLoader())
             })

@@ -27,18 +27,22 @@ export default class AnnouncementManagementScreen extends React.Component {
     register() {
         if (this.state.isEditing) {
             this.refs.baseInfoForm.update().then(announcement => {
-                this.setState({
-                    item: announcement,
-                    isEditing: true
-                })
+                if(announcement) {
+                    this.setState({
+                        item: announcement,
+                        isEditing: true
+                    })
+                }
             })
         }
         else {
             this.refs.baseInfoForm.register().then(announcement => {
-                this.setState({
-                    item: announcement,
-                    isEditing: true
-                })
+                if(announcement) {
+                    this.setState({
+                        item: announcement,
+                        isEditing: true
+                    })
+                }
             })
         }
     }
